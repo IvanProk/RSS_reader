@@ -7,5 +7,7 @@
     <ListView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/talkListView" />
+        android:id="@+id/talkListView"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"/>
 </LinearLayout>

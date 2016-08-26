@@ -22,5 +22,5 @@ public interface IDetailFragmentView {
     void hideProgressDialog();
     void startService();
     void stopService();
-    void replaceToShowFragment(String mediaURL);
+    void close();
 }

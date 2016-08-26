@@ -16,6 +16,10 @@
         "source": "/Users/boris/Downloads/RSSApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.1.1/res/drawable/abc_ic_ab_back_material.xml"
     },
     {
+        "merged": "/Users/boris/Downloads/RSSApp/app/build/intermediates/res/merged/debug/drawable/image_placeholder.xml",
+        "source": "/Users/boris/Downloads/RSSApp/app/src/main/res/drawable/image_placeholder.xml"
+    },
+    {
         "merged": "/Users/boris/Downloads/RSSApp/app/build/intermediates/res/merged/debug/drawable/abc_item_background_holo_dark.xml",
         "source": "/Users/boris/Downloads/RSSApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.1.1/res/drawable/abc_item_background_holo_dark.xml"
     },
@@ -70,6 +74,10 @@
     {
         "merged": "/Users/boris/Downloads/RSSApp/app/build/intermediates/res/merged/debug/drawable/abc_ic_voice_search_api_material.xml",
         "source": "/Users/boris/Downloads/RSSApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.1.1/res/drawable/abc_ic_voice_search_api_material.xml"
+    },
+    {
+        "merged": "/Users/boris/Downloads/RSSApp/app/build/intermediates/res/merged/debug/drawable/back_button_shape.xml",
+        "source": "/Users/boris/Downloads/RSSApp/app/src/main/res/drawable/back_button_shape.xml"
     },
     {
         "merged": "/Users/boris/Downloads/RSSApp/app/build/intermediates/res/merged/debug/drawable/abc_btn_radio_material.xml",
@@ -138,5 +146,9 @@
     {
         "merged": "/Users/boris/Downloads/RSSApp/app/build/intermediates/res/merged/debug/drawable/abc_btn_borderless_material.xml",
         "source": "/Users/boris/Downloads/RSSApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.1.1/res/drawable/abc_btn_borderless_material.xml"
+    },
+    {
+        "merged": "/Users/boris/Downloads/RSSApp/app/build/intermediates/res/merged/debug/drawable/gradient_view.xml",
+        "source": "/Users/boris/Downloads/RSSApp/app/src/main/res/drawable/gradient_view.xml"
     }
 ]

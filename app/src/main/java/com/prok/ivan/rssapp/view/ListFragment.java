@@ -19,6 +19,7 @@ package com.prok.ivan.rssapp.view;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -144,6 +145,13 @@ public class ListFragment extends BaseFragment implements IListFragmentView {
         if (newsListAdapter == null) {
             newsListAdapter = new NewsListAdapter(activity, itemNewsList, totalNews);
             listView.setAdapter(newsListAdapter);
+            newsListAdapter.setFooterButtonOnClick(new Runnable() {
+                @Override
+                public void run() {
+                    listView.scrollTo(0,0);
+                }
+            });
+
         } else {
             presenter.addListToAdapter(itemNewsList);
         }
@@ -156,14 +164,18 @@ public class ListFragment extends BaseFragment implements IListFragmentView {
 
     @Override
     public void showProgressDialog() {
-        ProgressBar progressBar = (ProgressBar) activity.findViewById(R.id.toolbar_progress_bar);
-        progressBar.setVisibility(View.VISIBLE);
+//        ProgressBar progressBar = (ProgressBar) activity.findViewById(R.id.progress_bar);
+//        progressBar.setVisibility(View.VISIBLE);
+        ProgressFragmentView progressView = new ProgressFragmentView(activity);
+        progressView.showProgressView(activity);
     }
 
     @Override
     public void hideProgressDialog() {
-        ProgressBar progressBar = (ProgressBar) activity.findViewById(R.id.toolbar_progress_bar);
-        progressBar.setVisibility(View.INVISIBLE);
+//        ProgressBar progressBar = (ProgressBar) activity.findViewById(R.id.progress_bar);
+//        progressBar.setVisibility(View.INVISIBLE);
+        ProgressFragmentView progressView = new ProgressFragmentView(activity);
+        progressView.hideProgressView();
     }
 
     @Override

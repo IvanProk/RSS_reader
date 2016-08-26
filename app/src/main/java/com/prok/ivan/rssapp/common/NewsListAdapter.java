@@ -23,6 +23,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -38,6 +39,7 @@ public class NewsListAdapter extends BaseAdapter {
     private List<ItemNews> itemTalkList;
     private LayoutInflater layoutInflater;
     private Activity activity;
+    private Runnable footerOnClickAction;
     protected int totalListSize;
 
     public static final int VIEW_TYPE_LOADING = 0;
@@ -82,22 +84,22 @@ public class NewsListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent){
+    public View getView(int position, View convertView, ViewGroup parent) {
         if (getItemViewType(position) == VIEW_TYPE_LOADING) {
-            // возвращаем вместо строки с данными футер с прогрессбаром
+            // возвращаем вместо строки с данными футер с кнопкой
             return getFooterView(position, convertView, parent);
         }
         View view = convertView;
         if (view == null) {
             view = layoutInflater.inflate(R.layout.item_news_list, parent, false);
             ViewHolder holder = new ViewHolder();
-            holder.nameText = (TextView)view.findViewById(R.id.news_title);
-            holder.descText = (TextView)view.findViewById(R.id.news_description);
-            holder.publishedText = (TextView)view.findViewById(R.id.pub_date);
+            holder.nameText = (TextView) view.findViewById(R.id.news_title);
+            holder.descText = (TextView) view.findViewById(R.id.news_description);
+            holder.publishedText = (TextView) view.findViewById(R.id.pub_date);
             holder.newsImage = (ImageView) view.findViewById(R.id.news_image);
             view.setTag(holder);
         }
-        ViewHolder holder = (ViewHolder)view.getTag();
+        ViewHolder holder = (ViewHolder) view.getTag();
         ItemNews itemNews = getItem(position);
         holder.nameText.setText(itemNews.getTitle());
         holder.descText.setText(itemNews.getDescription());
@@ -111,19 +113,30 @@ public class NewsListAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public View getFooterView(int position, View convertView, ViewGroup parent) {
+    public View getFooterView(int position, View convertView, final ViewGroup parent) {
         if (position >= totalListSize && totalListSize > 0) {
             // the ListView has reached the last row
-            TextView tvLastRow = new TextView(activity);
-            tvLastRow.setHint("Reached the last row.");
-            tvLastRow.setGravity(Gravity.CENTER);
-            return tvLastRow;
+            Button btnLastRow = new Button(activity);
+            btnLastRow.setHint("Tap to go up");
+            btnLastRow.setGravity(Gravity.CENTER);
+            btnLastRow.setOnClickListener(new View.OnClickListener() {
+                                              @Override
+                                              public void onClick(View view) {
+                                                  footerOnClickAction.run();
+                                              }
+                                          }
+            );
+            return btnLastRow;
         }
         View row = convertView;
         if (row == null) {
             row = layoutInflater.inflate(R.layout.list_footer, parent, false);
         }
         return row;
+    }
+
+    public void setFooterButtonOnClick(Runnable action){
+        this.footerOnClickAction = action;
     }
 
     static class ViewHolder {

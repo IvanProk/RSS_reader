@@ -62,9 +62,8 @@ public class DetailFragmentPresenterImpl implements IDetailFragmentPresenter {
     }
 
     @Override
-    public void playButtonOnClick() {
-        view.replaceToShowFragment(mediaURL);
-    }
+    public void backButtonOnClick() {
+        Log.d("RSS", "backButtonOnClick: ");view.close();}
 
 
     private void sendRequest(String url, SpiceManager spiceManager) {
@@ -94,7 +93,7 @@ public class DetailFragmentPresenterImpl implements IDetailFragmentPresenter {
             Document document = Jsoup.parse(result);
             imageUrl = document.body().getElementsByClass("g-picture").attr("src");
             name = document.body().getElementsByTag("h1").first().text();
-            Elements topic = document.body().getElementsByClass("b-topic__body");
+            Elements topic = document.body().getElementsByClass("b-text");
             for (Element element : topic.select("p"))
                 desc += element.text() + "\n\n";
             view.hideProgressDialog();

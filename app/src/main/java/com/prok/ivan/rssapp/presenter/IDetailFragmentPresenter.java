@@ -24,5 +24,5 @@ import com.prok.ivan.rssapp.view.IDetailFragmentView;
 public interface IDetailFragmentPresenter extends BaseFragmentPresenter<IDetailFragmentView> {
     void onResume(SpiceManager spiceManager, String link);
     void onPause();
-    void playButtonOnClick();
+    void backButtonOnClick();
 }

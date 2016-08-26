@@ -19,9 +19,12 @@ package com.prok.ivan.rssapp.view;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -56,6 +59,7 @@ public class DetailFragment extends BaseFragment implements IDetailFragmentView 
     private ImageView imageView;
     private TextView nameTextView;
     private TextView descTextView;
+    private ImageButton btnBack;
 
     public DetailFragment() {
     }
@@ -113,7 +117,15 @@ public class DetailFragment extends BaseFragment implements IDetailFragmentView 
         imageView = (ImageView) view.findViewById(R.id.detailImageView);
         nameTextView = (TextView) view.findViewById(R.id.detailNameTextView);
         descTextView = (TextView) view.findViewById(R.id.detaliDescTextView);
+        btnBack = (ImageButton) view.findViewById(R.id.btnBack);
 
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("RSS", "onClick: ");
+                presenter.backButtonOnClick();
+            }
+        });
     }
 
     @Override
@@ -142,14 +154,18 @@ public class DetailFragment extends BaseFragment implements IDetailFragmentView 
 
     @Override
     public void showProgressDialog() {
-        ProgressBar progressBar = (ProgressBar) activity.findViewById(R.id.toolbar_progress_bar);
+        ProgressBar progressBar = (ProgressBar) activity.findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.VISIBLE);
+//        ProgressFragmentView progressView = new ProgressFragmentView(activity);
+//        progressView.showProgressView(activity);
     }
 
     @Override
     public void hideProgressDialog() {
-        ProgressBar progressBar = (ProgressBar) activity.findViewById(R.id.toolbar_progress_bar);
-        progressBar.setVisibility(View.INVISIBLE);
+        ProgressBar progressBar = (ProgressBar) activity.findViewById(R.id.progress_bar);
+        progressBar.setVisibility(View.GONE);
+//        ProgressFragmentView progressView = new ProgressFragmentView(activity);
+//        progressView.hideProgressView();
     }
 
     @Override
@@ -167,12 +183,14 @@ public class DetailFragment extends BaseFragment implements IDetailFragmentView 
     }
 
     @Override
-    public void replaceToShowFragment(String mediaURL) {
+    public void close() {
         FragmentManager fragmentManager = getFragmentManager();
-        ShowFragment showFragment = ShowFragment.newInstance(mediaURL);
-        fragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, showFragment, ShowFragment.TAG)
-                .addToBackStack(null)
-                .commit();
+        fragmentManager.popBackStack();
+//        fragmentManager.beginTransaction().remove(this).commit();
+//        ShowFragment showFragment = ShowFragment.newInstance();
+//        fragmentManager.beginTransaction()
+//                .replace(R.id.fragment_container, showFragment, ShowFragment.TAG)
+//                .addToBackStack(null)
+//                .commit();
     }
 }

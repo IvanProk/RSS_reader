@@ -17,6 +17,7 @@
 package com.prok.ivan.rssapp.network;
 
 import android.app.Application;
+import android.app.Notification;
 
 import com.octo.android.robospice.SpiceService;
 import com.octo.android.robospice.persistence.CacheManager;
@@ -35,5 +36,10 @@ public class RSSService extends SpiceService {
     @Override
     public int getThreadCount() {
         return 3;
+    }
+
+    @Override
+    public Notification createDefaultNotification() {
+        return null;
     }
 }

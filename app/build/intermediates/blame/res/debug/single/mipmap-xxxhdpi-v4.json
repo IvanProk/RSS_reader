@@ -1,5 +1,9 @@
 [
     {
+        "merged": "/Users/boris/Downloads/RSSApp/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi-v4/btn_back.png",
+        "source": "/Users/boris/Downloads/RSSApp/app/src/main/res/mipmap-xxxhdpi/btn_back.png"
+    },
+    {
         "merged": "/Users/boris/Downloads/RSSApp/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi-v4/ic_launcher.png",
         "source": "/Users/boris/Downloads/RSSApp/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"
     }

@@ -1,25 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <instant-run
-    abi="x86"
-    api-level="16"
+    abi="x86,armeabi-v7a,armeabi"
+    api-level="21"
     density="xhdpi"
     format="7"
-    timestamp="25898507020320"
+    timestamp="205139430318852"
     token="4274582399770287963" >
 
     <task
         name="javac"
-        duration="0" />
+        duration="1125" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="0" />
+        duration="7" />
     <task
         name="verifier"
-        duration="0" />
+        duration="1" />
 
-    <build timestamp="25898507020320" />
+    <artifact
+        location="/Users/boris/Downloads/RSSApp/app/build/outputs/apk/app-debug.apk"
+        type="MAIN" />
+
+    <build timestamp="205139430318852" >
+        <artifact
+            location="/Users/boris/Downloads/RSSApp/app/build/outputs/apk/app-debug.apk"
+            type="MAIN" />
+    </build>
 
 </instant-run>
