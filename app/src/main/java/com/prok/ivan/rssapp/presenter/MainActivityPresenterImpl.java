@@ -1,7 +1,4 @@
 package com.prok.ivan.rssapp.presenter;
-
-
-
 import com.prok.ivan.rssapp.view.IMainActivityView;
 
 import javax.inject.Inject;

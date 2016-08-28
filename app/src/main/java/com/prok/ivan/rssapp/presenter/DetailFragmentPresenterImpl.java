@@ -1,19 +1,3 @@
-/*
- * Copyright (2015) Alexey Mitutov
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.prok.ivan.rssapp.presenter;
 
 import android.util.Log;
@@ -31,16 +15,12 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
-
 import javax.inject.Inject;
 
 public class DetailFragmentPresenterImpl implements IDetailFragmentPresenter {
 
     private IDetailFragmentView view;
     private String mediaURL;
-
-
     @Inject
     public DetailFragmentPresenterImpl() {
     }
@@ -51,7 +31,8 @@ public class DetailFragmentPresenterImpl implements IDetailFragmentPresenter {
     }
 
     @Override
-    public void onResume(SpiceManager spiceManager, String link) {
+    public void onResume(SpiceManager spiceManager, String link, String spareImageUrl) {
+        mediaURL = spareImageUrl;
         view.startService();
         sendRequest(link, spiceManager);
     }
@@ -62,9 +43,11 @@ public class DetailFragmentPresenterImpl implements IDetailFragmentPresenter {
     }
 
     @Override
-    public void backButtonOnClick() {
-        Log.d("RSS", "backButtonOnClick: ");view.close();}
+    public void backButtonOnClick() {view.close();}
 
+    public void toSiteButtonOnClick(){
+        view.goToSite();
+    }
 
     private void sendRequest(String url, SpiceManager spiceManager) {
         SimpleTextRequest request = new SimpleTextRequest(url);
@@ -91,7 +74,11 @@ public class DetailFragmentPresenterImpl implements IDetailFragmentPresenter {
             view.hideProgressDialog();
             Log.d("RSS", "onRequestSuccess: result is: " + result);
             Document document = Jsoup.parse(result);
-            imageUrl = document.body().getElementsByClass("g-picture").attr("src");
+            String url = document.body().getElementsByClass("g-picture").select("[itemprop = image]").attr("src");
+            if(!url.equals(""))
+                imageUrl = url;
+            else
+            imageUrl = mediaURL;
             name = document.body().getElementsByTag("h1").first().text();
             Elements topic = document.body().getElementsByClass("b-text");
             for (Element element : topic.select("p"))

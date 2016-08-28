@@ -43,7 +43,8 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
                 android:text="Detail description sample text"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_margin="16dp"/>
 
             <ImageButton
                 android:id="@+id/btnBack"
@@ -53,7 +54,18 @@
                 android:layout_marginTop="8dp"
                 android:background="@drawable/back_button_shape"
                 android:elevation="4dp"
-                android:src="@mipmap/btn_back" />
+                android:src="@mipmap/btn_back"/>
+
+            <Button
+                android:id="@+id/btnToSite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:text="Читать на сайте"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/colorAccent"
+                android:visibility="visible"/>
         </RelativeLayout>
     </ScrollView>
     <ProgressBar

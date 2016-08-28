@@ -1,23 +1,9 @@
-/*
- * Copyright (2015) Alexey Mitutov
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.prok.ivan.rssapp.view;
 
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.octo.android.robospice.SpiceManager;
@@ -47,10 +34,8 @@ public class DetailFragment extends BaseFragment implements IDetailFragmentView 
 
     protected SpiceManager spiceManager = new SpiceManager(RSSService.class);
 
-    private static final String BUNDLE_IMAGE_URL = "bunleImgUrl";
-    public static final String BUNDLE_ID = "bundleID";
+    private static final String BUNDLE_IMAGE_URL = "bundleImgUrl";
     public static final String BUNDLE_LINK = "bundleImageUrl";
-    public static final String BUNDLE_TITLE = "bundleTitle";
 
     private Activity activity;
     private String link;
@@ -60,6 +45,8 @@ public class DetailFragment extends BaseFragment implements IDetailFragmentView 
     private TextView nameTextView;
     private TextView descTextView;
     private ImageButton btnBack;
+    private Button btnToSite;
+    private ScrollView scrollView;
 
     public DetailFragment() {
     }
@@ -81,8 +68,8 @@ public class DetailFragment extends BaseFragment implements IDetailFragmentView 
         if (getArguments() != null) {
             if (getArguments().containsKey(BUNDLE_LINK))
                 this.link = getArguments().getString(BUNDLE_LINK);
-             else if(getArguments().containsKey(BUNDLE_IMAGE_URL))
-                 this.cardImageUrl = getArguments().getString(BUNDLE_IMAGE_URL);
+            if (getArguments().containsKey(BUNDLE_IMAGE_URL))
+                this.cardImageUrl = getArguments().getString(BUNDLE_IMAGE_URL);
         } else {
             throw new IllegalArgumentException("Must be created through newInstance(int id)");
         }
@@ -98,7 +85,7 @@ public class DetailFragment extends BaseFragment implements IDetailFragmentView 
     public void onResume() {
         super.onResume();
         presenter.init(this);
-        presenter.onResume(spiceManager, link);
+        presenter.onResume(spiceManager, link, cardImageUrl);
     }
 
     @Override
@@ -118,12 +105,21 @@ public class DetailFragment extends BaseFragment implements IDetailFragmentView 
         nameTextView = (TextView) view.findViewById(R.id.detailNameTextView);
         descTextView = (TextView) view.findViewById(R.id.detaliDescTextView);
         btnBack = (ImageButton) view.findViewById(R.id.btnBack);
+        btnToSite = (Button) view.findViewById(R.id.btnToSite);
+        scrollView = (ScrollView) view.findViewById(R.id.scrollView);
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d("RSS", "onClick: ");
                 presenter.backButtonOnClick();
+            }
+        });
+
+        btnToSite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.toSiteButtonOnClick();
             }
         });
     }
@@ -144,10 +140,6 @@ public class DetailFragment extends BaseFragment implements IDetailFragmentView 
         else
             imageUrl = cardImageUrl;
         ImageService.getInstance(activity).downloadImage(imageUrl, imageView);
-//        Picasso.with(activity)
-//                .load(imageUrl)
-//                .placeholder(R.drawable.picasso_loading_animation)
-//                .into(imageView);
         nameTextView.setText(name);
         descTextView.setText(desc);
     }
@@ -156,17 +148,16 @@ public class DetailFragment extends BaseFragment implements IDetailFragmentView 
     public void showProgressDialog() {
         ProgressBar progressBar = (ProgressBar) activity.findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.VISIBLE);
-//        ProgressFragmentView progressView = new ProgressFragmentView(activity);
-//        progressView.showProgressView(activity);
+        scrollView.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void hideProgressDialog() {
         ProgressBar progressBar = (ProgressBar) activity.findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.GONE);
-//        ProgressFragmentView progressView = new ProgressFragmentView(activity);
-//        progressView.hideProgressView();
+        scrollView.setVisibility(View.VISIBLE);
     }
+
 
     @Override
     public void startService() {
@@ -186,11 +177,13 @@ public class DetailFragment extends BaseFragment implements IDetailFragmentView 
     public void close() {
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.popBackStack();
-//        fragmentManager.beginTransaction().remove(this).commit();
-//        ShowFragment showFragment = ShowFragment.newInstance();
-//        fragmentManager.beginTransaction()
-//                .replace(R.id.fragment_container, showFragment, ShowFragment.TAG)
-//                .addToBackStack(null)
-//                .commit();
     }
+
+    @Override
+    public void goToSite() {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(this.link));
+        activity.startActivity(intent);
+    }
+
+
 }

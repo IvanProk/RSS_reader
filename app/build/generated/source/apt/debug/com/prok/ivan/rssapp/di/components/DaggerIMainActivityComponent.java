@@ -4,12 +4,10 @@ import com.prok.ivan.rssapp.di.modules.MainActivityModule;
 import com.prok.ivan.rssapp.di.modules.MainActivityModule_ProvideDetailFragmentPresenterImplFactory;
 import com.prok.ivan.rssapp.di.modules.MainActivityModule_ProvideListFragmentPresenterImplFactory;
 import com.prok.ivan.rssapp.di.modules.MainActivityModule_ProvideMainActivityPresenterImplFactory;
-import com.prok.ivan.rssapp.di.modules.MainActivityModule_ProvideShowFragmentPresenterImplFactory;
 import com.prok.ivan.rssapp.di.modules.MainActivityModule_ProvideViewFactory;
 import com.prok.ivan.rssapp.presenter.DetailFragmentPresenterImpl;
 import com.prok.ivan.rssapp.presenter.ListFragmentPresenterImpl;
 import com.prok.ivan.rssapp.presenter.MainActivityPresenterImpl;
-import com.prok.ivan.rssapp.presenter.ShowFragmentPresenterImpl;
 import com.prok.ivan.rssapp.view.DetailFragment;
 import com.prok.ivan.rssapp.view.DetailFragment_MembersInjector;
 import com.prok.ivan.rssapp.view.IMainActivityView;
@@ -17,8 +15,6 @@ import com.prok.ivan.rssapp.view.ListFragment;
 import com.prok.ivan.rssapp.view.ListFragment_MembersInjector;
 import com.prok.ivan.rssapp.view.MainActivity;
 import com.prok.ivan.rssapp.view.MainActivity_MembersInjector;
-import com.prok.ivan.rssapp.view.ShowFragment;
-import com.prok.ivan.rssapp.view.ShowFragment_MembersInjector;
 import dagger.MembersInjector;
 import dagger.internal.MembersInjectors;
 import javax.annotation.Generated;
@@ -33,8 +29,6 @@ public final class DaggerIMainActivityComponent implements IMainActivityComponen
   private MembersInjector<ListFragment> listFragmentMembersInjector;
   private Provider<DetailFragmentPresenterImpl> provideDetailFragmentPresenterImplProvider;
   private MembersInjector<DetailFragment> detailFragmentMembersInjector;
-  private Provider<ShowFragmentPresenterImpl> provideShowFragmentPresenterImplProvider;
-  private MembersInjector<ShowFragment> showFragmentMembersInjector;
 
   private DaggerIMainActivityComponent(Builder builder) {  
     assert builder != null;
@@ -53,8 +47,6 @@ public final class DaggerIMainActivityComponent implements IMainActivityComponen
     this.listFragmentMembersInjector = ListFragment_MembersInjector.create((MembersInjector) MembersInjectors.noOp(), provideListFragmentPresenterImplProvider);
     this.provideDetailFragmentPresenterImplProvider = MainActivityModule_ProvideDetailFragmentPresenterImplFactory.create(builder.mainActivityModule);
     this.detailFragmentMembersInjector = DetailFragment_MembersInjector.create((MembersInjector) MembersInjectors.noOp(), provideDetailFragmentPresenterImplProvider);
-    this.provideShowFragmentPresenterImplProvider = MainActivityModule_ProvideShowFragmentPresenterImplFactory.create(builder.mainActivityModule);
-    this.showFragmentMembersInjector = ShowFragment_MembersInjector.create((MembersInjector) MembersInjectors.noOp(), provideShowFragmentPresenterImplProvider);
   }
 
   @Override
@@ -70,11 +62,6 @@ public final class DaggerIMainActivityComponent implements IMainActivityComponen
   @Override
   public void inject(DetailFragment talkDetailFragment) {  
     detailFragmentMembersInjector.injectMembers(talkDetailFragment);
-  }
-
-  @Override
-  public void inject(ShowFragment showFragment) {  
-    showFragmentMembersInjector.injectMembers(showFragment);
   }
 
   public static final class Builder {

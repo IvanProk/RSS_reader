@@ -30,6 +30,7 @@ public class ImageService {
         Picasso.with(context)
                 .load(url)
                 .resize(height, width)
+                .error(R.drawable.image_placeholder)
                 .placeholder(R.drawable.image_placeholder)
                 .into(target);
     }

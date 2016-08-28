@@ -1,38 +1,20 @@
-/*
- * Copyright (2015) Alexey Mitutov
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.prok.ivan.rssapp.view;
 
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.util.Log;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.octo.android.robospice.SpiceManager;
 import com.prok.ivan.rssapp.R;
 import com.prok.ivan.rssapp.common.BaseFragment;
-import com.prok.ivan.rssapp.common.EndlessScrollListener;
 import com.prok.ivan.rssapp.common.NewsListAdapter;
 import com.prok.ivan.rssapp.di.components.IMainActivityComponent;
 import com.prok.ivan.rssapp.model.ItemNews;
@@ -55,6 +37,7 @@ public class ListFragment extends BaseFragment implements IListFragmentView {
     private ListView listView;
     private NewsListAdapter newsListAdapter;
     private View rootView;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     public ListFragment() {
     }
@@ -75,10 +58,9 @@ public class ListFragment extends BaseFragment implements IListFragmentView {
 
     @Override
     public void onResume() {
-        super.onResume();
         presenter.init(this);
         presenter.onResume(spiceManager);
-
+        super.onResume();
     }
 
     @Override
@@ -107,18 +89,25 @@ public class ListFragment extends BaseFragment implements IListFragmentView {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        listView.setOnScrollListener(new EndlessScrollListener() {
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeToRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onLoadMore() {
-                presenter.onLoadMore();
+            public void onRefresh() {
+                if (presenter.getNetworkState(activity))
+                    presenter.refresh(swipeRefreshLayout);
+                else {
+                    onNoConnection();
+                    setRefreshing(false);
+                }
             }
         });
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {//TODO
-//                showDescriptionOfSelectedItem(view);
-                presenter.onItemClick((ItemNews) listView.getAdapter().getItem(position));
-                Log.d("RSS", "onItemClick: position: " + position + " id: " + id);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (presenter.getNetworkState(activity))
+                    presenter.onItemClick((ItemNews) listView.getAdapter().getItem(position));
+                else
+                    onNoConnection();
             }
         });
     }
@@ -132,15 +121,6 @@ public class ListFragment extends BaseFragment implements IListFragmentView {
     // -----  IListFragmentView implement method
 
     @Override
-    public void showDescriptionOfSelectedItem(View item) {
-        TextView tvDescription = (TextView)item.findViewById(R.id.news_description);
-        if (tvDescription.getVisibility() == View.GONE)
-            tvDescription.setVisibility(View.VISIBLE);
-        else
-            tvDescription.setVisibility(View.GONE);
-    }
-
-    @Override
     public void setNewsListAdapter(List<ItemNews> itemNewsList, int totalNews) {
         if (newsListAdapter == null) {
             newsListAdapter = new NewsListAdapter(activity, itemNewsList, totalNews);
@@ -148,7 +128,7 @@ public class ListFragment extends BaseFragment implements IListFragmentView {
             newsListAdapter.setFooterButtonOnClick(new Runnable() {
                 @Override
                 public void run() {
-                    listView.scrollTo(0,0);
+                    listView.scrollTo(0, 0);
                 }
             });
 
@@ -164,18 +144,16 @@ public class ListFragment extends BaseFragment implements IListFragmentView {
 
     @Override
     public void showProgressDialog() {
-//        ProgressBar progressBar = (ProgressBar) activity.findViewById(R.id.progress_bar);
-//        progressBar.setVisibility(View.VISIBLE);
-        ProgressFragmentView progressView = new ProgressFragmentView(activity);
-        progressView.showProgressView(activity);
+        ProgressBar progressBar = (ProgressBar) activity.findViewById(R.id.mainActivityProgressBar);
+        listView.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgressDialog() {
-//        ProgressBar progressBar = (ProgressBar) activity.findViewById(R.id.progress_bar);
-//        progressBar.setVisibility(View.INVISIBLE);
-        ProgressFragmentView progressView = new ProgressFragmentView(activity);
-        progressView.hideProgressView();
+        listView.setVisibility(View.VISIBLE);
+        ProgressBar progressBar = (ProgressBar) activity.findViewById(R.id.mainActivityProgressBar);
+        progressBar.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -202,4 +180,21 @@ public class ListFragment extends BaseFragment implements IListFragmentView {
             spiceManager.shouldStop();
         }
     }
+
+    @Override
+    public void setRefreshing(boolean refresh) {
+        swipeRefreshLayout.setRefreshing(refresh);
+    }
+
+    @Override
+    public void onRequestFailure() {
+        Toast.makeText(activity, "Ошибка сети", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onNoConnection() {
+        Toast.makeText(activity, "Необходимо подключение к интернету", Toast.LENGTH_SHORT).show();
+    }
+
+
 }

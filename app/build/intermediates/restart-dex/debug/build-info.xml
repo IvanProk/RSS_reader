@@ -4,30 +4,42 @@
     api-level="21"
     density="xhdpi"
     format="7"
-    timestamp="205139430318852"
-    token="4274582399770287963" >
+    timestamp="1556904265176440"
+    token="-745871355610313192" >
 
     <task
         name="javac"
-        duration="1125" />
+        duration="0" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="7" />
+        duration="0" />
     <task
         name="verifier"
-        duration="1" />
+        duration="0" />
 
     <artifact
-        location="/Users/boris/Downloads/RSSApp/app/build/outputs/apk/app-debug.apk"
-        type="MAIN" />
+        location="D:\Projects\RSS_reader\app\build\intermediates\res\resources-debug.ap_"
+        type="RESOURCES" />
 
-    <build timestamp="205139430318852" >
+    <build timestamp="1555886549474095" >
         <artifact
-            location="/Users/boris/Downloads/RSSApp/app/build/outputs/apk/app-debug.apk"
+            location="D:\Projects\RSS_reader\app\build\outputs\apk\app-debug.apk"
             type="MAIN" />
+    </build>
+    <build
+        timestamp="1556765864637754"
+        verifier="R_CLASS_CHANGE" >
+        <artifact
+            location="D:\Projects\RSS_reader\app\build\intermediates\transforms\dex\debug\folders\1000\5\slice_0\classes.dex"
+            type="DEX" />
+    </build>
+    <build timestamp="1556904265176440" >
+        <artifact
+            location="D:\Projects\RSS_reader\app\build\intermediates\res\resources-debug.ap_"
+            type="RESOURCES" />
     </build>
 
 </instant-run>
