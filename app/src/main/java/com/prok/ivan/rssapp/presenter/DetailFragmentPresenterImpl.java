@@ -70,6 +70,7 @@ public class DetailFragmentPresenterImpl implements IDetailFragmentPresenter {
             String imageUrl;
             String name;
             String desc = "";
+            String date;
 
             view.hideProgressDialog();
             Log.d("RSS", "onRequestSuccess: result is: " + result);
@@ -80,14 +81,12 @@ public class DetailFragmentPresenterImpl implements IDetailFragmentPresenter {
             else
             imageUrl = mediaURL;
             name = document.body().getElementsByTag("h1").first().text();
+            date = document.body().getElementsByClass("g-date").first().text();
             Elements topic = document.body().getElementsByClass("b-text");
             for (Element element : topic.select("p"))
                 desc += element.text() + "\n\n";
             view.hideProgressDialog();
-            Log.d("RSS", "onRequestSuccess: imgUrl -- " + imageUrl +
-                    "\n name -- " + name +
-                    "\n description -- " + desc);
-            view.updateViews(imageUrl, name, desc);
+            view.updateViews(imageUrl, name, desc, date);
         }
     }
 }

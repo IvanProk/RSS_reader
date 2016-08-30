@@ -53,10 +53,6 @@ public class ListFragmentPresenterImpl implements IListFragmentPresenter {
     }
 
     @Override
-    public void onLoadMore() {
-    }
-
-    @Override
     public void onItemClick(ItemNews itemNews) {
         String url = itemNews.getLink();
         String cardImageUrl = itemNews.getEnclosureUrl();
@@ -74,13 +70,6 @@ public class ListFragmentPresenterImpl implements IListFragmentPresenter {
         sendRequest(RSS_URL, spiceManager, false);
     }
 
-    @Override
-    public boolean getNetworkState(Context context) {
-        ConnectivityManager connMgr = (ConnectivityManager)
-                context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        return (networkInfo != null && networkInfo.isConnected());
-    }
 
 
     private void sendRequest(String url, SpiceManager spiceManager, boolean isLoadMore) {
@@ -113,7 +102,6 @@ public class ListFragmentPresenterImpl implements IListFragmentPresenter {
             } catch (SAXException | IOException e) {
                 e.printStackTrace();
             }
-
             totalNews = itemNewsList.size();
             view.setNewsListAdapter((List) itemNewsList, totalNews);
         }

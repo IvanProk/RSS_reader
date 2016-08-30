@@ -14,7 +14,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingLeft="8dp"
-            android:paddingRight="8dp" />
+            android:paddingRight="8dp"
+            android:scrollbars="none"/>
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <ProgressBar
@@ -23,4 +24,23 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:visibility="gone" />
+    <RelativeLayout
+        android:id="@+id/errorMessage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+        <ImageView
+            android:id="@+id/errorImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/network_error" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/errorImage"
+            android:text="Нет подключения"
+            android:layout_centerHorizontal="true"/>
+    </RelativeLayout>
 </RelativeLayout>

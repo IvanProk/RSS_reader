@@ -24,12 +24,12 @@ public class ImageService {
 //        Picasso.with(context).setIndicatorsEnabled(true);
 
         float scale = context.getResources().getDisplayMetrics().density;
-        int width = (int) (280*scale + 0.5f);
-        int height = (int) (420*scale + 0.5f);
+        int height = (int) (280*scale + 0.5f);
+        int width = (int) (420*scale + 0.5f);
 
         Picasso.with(context)
                 .load(url)
-                .resize(height, width)
+                .resize(width, height)
                 .error(R.drawable.image_placeholder)
                 .placeholder(R.drawable.image_placeholder)
                 .into(target);

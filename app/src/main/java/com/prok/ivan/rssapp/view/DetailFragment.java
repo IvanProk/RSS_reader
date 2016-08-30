@@ -44,6 +44,7 @@ public class DetailFragment extends BaseFragment implements IDetailFragmentView 
     private ImageView imageView;
     private TextView nameTextView;
     private TextView descTextView;
+    private TextView tvDate;
     private ImageButton btnBack;
     private Button btnToSite;
     private ScrollView scrollView;
@@ -103,6 +104,7 @@ public class DetailFragment extends BaseFragment implements IDetailFragmentView 
     public void onViewCreated(View view, Bundle savedInstanceState) {
         imageView = (ImageView) view.findViewById(R.id.detailImageView);
         nameTextView = (TextView) view.findViewById(R.id.detailNameTextView);
+        tvDate = (TextView) view.findViewById(R.id.detailDate);
         descTextView = (TextView) view.findViewById(R.id.detaliDescTextView);
         btnBack = (ImageButton) view.findViewById(R.id.btnBack);
         btnToSite = (Button) view.findViewById(R.id.btnToSite);
@@ -133,7 +135,7 @@ public class DetailFragment extends BaseFragment implements IDetailFragmentView 
     // -----  IDetailFragmentView implement method
 
     @Override
-    public void updateViews(String url, String name, String desc) {
+    public void updateViews(String url, String name, String desc, String date) {
         String imageUrl;
         if (url != null)
             imageUrl = url;
@@ -142,6 +144,7 @@ public class DetailFragment extends BaseFragment implements IDetailFragmentView 
         ImageService.getInstance(activity).downloadImage(imageUrl, imageView);
         nameTextView.setText(name);
         descTextView.setText(desc);
+        tvDate.setText(date);
     }
 
     @Override

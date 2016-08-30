@@ -1,5 +1,12 @@
 CHANGED,D:\Projects\RSS_reader\app\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\com\prok\ivan\rssapp\R$styleable$override.class
 CHANGED,D:\Projects\RSS_reader\app\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\com\android\tools\fd\runtime\AppPatchesLoaderImpl.class
+CHANGED,D:\Projects\RSS_reader\app\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\android\support\v7\appcompat\R$id$override.class
+CHANGED,D:\Projects\RSS_reader\app\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\com\prok\ivan\rssapp\view\DetailFragment$override.class
+CHANGED,D:\Projects\RSS_reader\app\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\com\prok\ivan\rssapp\R$id$override.class
 CHANGED,D:\Projects\RSS_reader\app\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\com\prok\ivan\rssapp\R$style$override.class
+CHANGED,D:\Projects\RSS_reader\app\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\com\prok\ivan\rssapp\R$layout$override.class
+CHANGED,D:\Projects\RSS_reader\app\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\com\prok\ivan\rssapp\view\ListFragment$override.class
 CHANGED,D:\Projects\RSS_reader\app\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\com\prok\ivan\rssapp\R$string$override.class
+CHANGED,D:\Projects\RSS_reader\app\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\com\prok\ivan\rssapp\common\NewsListAdapter$override.class
+CHANGED,D:\Projects\RSS_reader\app\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\com\prok\ivan\rssapp\R$integer$override.class
 CHANGED,D:\Projects\RSS_reader\app\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\com\prok\ivan\rssapp\R$mipmap$override.class

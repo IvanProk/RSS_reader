@@ -20,7 +20,7 @@ import java.util.List;
 
 public class NewsListAdapter extends BaseAdapter {
 
-    private List<ItemNews> itemTalkList;
+    private List<ItemNews> itemNewsList;
     private LayoutInflater layoutInflater;
     private Activity activity;
     private Runnable footerOnClickAction;
@@ -31,7 +31,7 @@ public class NewsListAdapter extends BaseAdapter {
 
 
     public NewsListAdapter(Activity activity, List<ItemNews> itemTalkList, int totalListSize) {
-        this.itemTalkList = itemTalkList;
+        this.itemNewsList = itemTalkList;
         this.layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.activity = activity;
         this.totalListSize = totalListSize;
@@ -49,17 +49,17 @@ public class NewsListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return itemTalkList.size() + 1;
+        return itemNewsList.size() + 1;
     }
 
     @Override
     public int getItemViewType(int position) {
-        return (position >= itemTalkList.size()) ? VIEW_TYPE_LOADING : VIEW_TYPE_ACTIVITY;
+        return (position >= itemNewsList.size()) ? VIEW_TYPE_LOADING : VIEW_TYPE_ACTIVITY;
     }
 
     @Override
     public ItemNews getItem(int position) {
-        return (getItemViewType(position) == VIEW_TYPE_ACTIVITY) ? itemTalkList.get(position) : null;
+        return (getItemViewType(position) == VIEW_TYPE_ACTIVITY) ? itemNewsList.get(position) : null;
     }
 
     @Override
@@ -93,7 +93,8 @@ public class NewsListAdapter extends BaseAdapter {
     }
 
     public void add(List<ItemNews> itemTalks) {
-        itemTalkList.addAll(itemTalks);
+        itemNewsList.clear();
+        itemNewsList.addAll(itemTalks);
         notifyDataSetChanged();
     }
 

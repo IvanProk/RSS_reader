@@ -3,6 +3,7 @@ package com.prok.ivan.rssapp.view;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.os.Bundle;
+import android.preference.PreferenceActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.octo.android.robospice.SpiceManager;
@@ -18,6 +20,7 @@ import com.prok.ivan.rssapp.common.BaseFragment;
 import com.prok.ivan.rssapp.common.NewsListAdapter;
 import com.prok.ivan.rssapp.di.components.IMainActivityComponent;
 import com.prok.ivan.rssapp.model.ItemNews;
+import com.prok.ivan.rssapp.network.NetworkHelper;
 import com.prok.ivan.rssapp.network.RSSService;
 import com.prok.ivan.rssapp.presenter.ListFragmentPresenterImpl;
 
@@ -38,6 +41,7 @@ public class ListFragment extends BaseFragment implements IListFragmentView {
     private NewsListAdapter newsListAdapter;
     private View rootView;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private RelativeLayout errorMessage;
 
     public ListFragment() {
     }
@@ -75,6 +79,8 @@ public class ListFragment extends BaseFragment implements IListFragmentView {
             rootView = inflater.inflate(R.layout.fragment_list, container, false);
             listView = (ListView) rootView.findViewById(R.id.talkListView);
             listView.setDividerHeight(0);
+
+            errorMessage = (RelativeLayout) rootView.findViewById(R.id.errorMessage);
         }
         return rootView;
     }
@@ -93,7 +99,7 @@ public class ListFragment extends BaseFragment implements IListFragmentView {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if (presenter.getNetworkState(activity))
+                if (NetworkHelper.getNetworkState(activity))
                     presenter.refresh(swipeRefreshLayout);
                 else {
                     onNoConnection();
@@ -104,7 +110,7 @@ public class ListFragment extends BaseFragment implements IListFragmentView {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (presenter.getNetworkState(activity))
+                if (NetworkHelper.getNetworkState(activity))
                     presenter.onItemClick((ItemNews) listView.getAdapter().getItem(position));
                 else
                     onNoConnection();
@@ -122,13 +128,14 @@ public class ListFragment extends BaseFragment implements IListFragmentView {
 
     @Override
     public void setNewsListAdapter(List<ItemNews> itemNewsList, int totalNews) {
+        errorMessage.setVisibility(View.GONE);
         if (newsListAdapter == null) {
             newsListAdapter = new NewsListAdapter(activity, itemNewsList, totalNews);
             listView.setAdapter(newsListAdapter);
             newsListAdapter.setFooterButtonOnClick(new Runnable() {
                 @Override
                 public void run() {
-                    listView.scrollTo(0, 0);
+                    listView.setSelection(0);
                 }
             });
 
@@ -144,6 +151,7 @@ public class ListFragment extends BaseFragment implements IListFragmentView {
 
     @Override
     public void showProgressDialog() {
+        errorMessage.setVisibility(View.GONE);
         ProgressBar progressBar = (ProgressBar) activity.findViewById(R.id.mainActivityProgressBar);
         listView.setVisibility(View.INVISIBLE);
         progressBar.setVisibility(View.VISIBLE);
@@ -151,6 +159,7 @@ public class ListFragment extends BaseFragment implements IListFragmentView {
 
     @Override
     public void hideProgressDialog() {
+
         listView.setVisibility(View.VISIBLE);
         ProgressBar progressBar = (ProgressBar) activity.findViewById(R.id.mainActivityProgressBar);
         progressBar.setVisibility(View.INVISIBLE);
@@ -188,11 +197,15 @@ public class ListFragment extends BaseFragment implements IListFragmentView {
 
     @Override
     public void onRequestFailure() {
-        Toast.makeText(activity, "Ошибка сети", Toast.LENGTH_SHORT).show();
+        if (NetworkHelper.getNetworkState(activity))
+            Toast.makeText(activity, "Ошибка сети", Toast.LENGTH_SHORT).show();
+        else
+            onNoConnection();
     }
 
     @Override
     public void onNoConnection() {
+        errorMessage.setVisibility(View.VISIBLE);
         Toast.makeText(activity, "Необходимо подключение к интернету", Toast.LENGTH_SHORT).show();
     }
 
